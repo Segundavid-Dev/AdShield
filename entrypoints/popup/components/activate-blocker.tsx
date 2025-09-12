@@ -20,18 +20,18 @@ export default function ActivateBlocker() {
       {/* Status icon */}
       <div style={{ textAlign: "center" }}>
         {adBlockerEnabled ? (
-          <ShieldCheck size={80} color="#10b981" />
+          <ShieldCheck size={120} color="#10b981" />
         ) : (
-          <ShieldOff size={80} color="#ef4444" />
+          <ShieldOff size={120} color="#ef4444" />
         )}
       </div>
 
       {/* Status Text */}
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center", marginBottom: "1rem" }}>
         <h2 style={{ margin: "0 0 8px 0", fontSize: "18px" }}>
           {adBlockerEnabled ? "Protection Active" : "Protection Disabled"}
         </h2>
-        <p style={{ margin: "0", fontSize: "14px", color: "#6b7280" }}>
+        <p style={{ margin: "0", fontSize: "12px", color: "#6b7280" }}>
           {adBlockerEnabled
             ? "Blocked ads and trackers"
             : "Enable protection to block ads and trackers"}
