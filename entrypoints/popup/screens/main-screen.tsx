@@ -1,7 +1,11 @@
+import Header from "../components/header";
+import Footer from "../components/footer";
+
 export default function MainScreen() {
   return (
     <div>
-      <h2>Main App Content</h2>
+      <Header />
+      <Footer />
     </div>
   );
 }
