@@ -8,7 +8,7 @@ export default function OnboardScreen() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "520px",
+        // height: "0px",
       }}
     >
       <div>

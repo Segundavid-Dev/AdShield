@@ -9,7 +9,13 @@ import { Info } from "lucide-react";
 export default function Footer() {
   return (
     <TooltipProvider>
-      <div style={{ backgroundColor: "#1a1a1a", padding: "10px" }}>
+      <div
+        style={{
+          backgroundColor: "#1a1a1a",
+          padding: "10px",
+          borderRadius: "8px",
+        }}
+      >
         <p>
           Turn on Ad Shield. It helps annoying Ads and unsafe element to provide
           you with a clean and safe browsering environment.
