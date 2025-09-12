@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import OnboardScreen from "./screens/onboard-screen";
+import MainScreen from "./screens/main-screen";
 
 function App() {
   const [showSplash, setShowSplash] = useState<boolean>(true);
@@ -14,9 +15,7 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  return (
-    <div>{showSplash ? <OnboardScreen /> : <div>Main App Content</div>}</div>
-  );
+  return <div>{showSplash ? <OnboardScreen /> : <MainScreen />}</div>;
 }
 
 export default App;

@@ -16,6 +16,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -26,10 +30,9 @@ a:hover {
 }
 
 body {
-  /* font-family: "Fredoka", sans-serif; */
   font-family: "DM Sans", sans-serif;
   margin: 0;
-  display: flex;
+  /* display: flex; */
   place-items: center;
   min-width: 420px;
   height: 540px;
