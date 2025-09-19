@@ -41,6 +41,46 @@ export default defineContentScript({
       "terms",
     ];
 
+    const AD_SELECTORS: string[] = [
+      // Google Ads
+      "ins.adsbygoogle",
+      'iframe[src*="googlesyndication"]',
+      'iframe[src*="googleadservices"]',
+      'iframe[src*="doubleclick"]',
+
+      // Generic ad patterns
+      'iframe[src*="ads"]',
+      "[data-ad]",
+      "[data-ads]",
+      "[data-ad-slot]",
+
+      // Class based selectors
+      'div[class*="ad-"]',
+      'div[class*="ads-"]',
+      'div[class*="advertisement"]',
+      'div[class*="banner"]',
+      'div[class*="popup"]',
+      'div[class*="overlay"]',
+      ".ad-banner",
+      ".ad-container",
+      ".advertisement",
+      ".sponsored",
+
+      // ID based selectors
+      'div[id*="ad-"]',
+      'div[id*="ads-"]',
+      'div[id*="popup"]',
+      "#advertisement",
+      "#banner",
+
+      // Common ad networks
+      'iframe[src*="propellerads"]',
+      'iframe[src*="exoclick"]',
+      'iframe[src*="juicyads"]',
+      'iframe[src*="trafficjunky"]',
+      'iframe[src*="popads"]',
+    ];
+
     document.addEventListener(
       "click",
       (e) => {
@@ -83,6 +123,46 @@ export default defineContentScript({
         "checkout",
       ];
       return legitimateKeywords.some((keyword) => text.includes(keyword));
+    };
+
+    const isLegitimatePopup = (element: HTMLElement): boolean => {
+      const content = element.textContent?.toLowerCase() || "";
+      const className = element.className?.toLowerCase() || "";
+      const id = element.id?.toLowerCase() || "";
+
+      return LEGITIMATE_POPUPS_INDICATORS.some(
+        (indicator) =>
+          content.includes(indicator) ||
+          className.includes(indicator) ||
+          id.includes(indicator)
+      );
+    };
+
+    const adBlock = () => {
+      let blockedCount = 0;
+
+      AD_SELECTORS.forEach((selector) => {
+        try {
+          const ads = document.querySelectorAll(selector);
+          console.log(`Found ${ads.length} ads for selector: ${selector}`);
+
+          ads.forEach((ad) => {
+            const element = ad as HTMLElement;
+
+            if (isLegitimatePopup(element)) {
+              console.log(`Skipping legitimate element: ${selector}`);
+              return;
+            }
+
+            element.remove();
+            blockedCount++;
+          });
+        } catch (error) {
+          console.log(`Error with ${selector}`);
+        }
+      });
+
+      removeCustomPopups();
     };
 
     const isMaliciousUrl = (url: string): boolean => {
@@ -161,7 +241,7 @@ export default defineContentScript({
     };
 
     // remove popups banners
-    function removePopups() {
+    function removeCustomPopups() {
       const popups = document.querySelectorAll("div, iframe");
 
       popups.forEach((el) => {
@@ -190,6 +270,6 @@ export default defineContentScript({
       }
     });
 
-    setInterval(removePopups, 2000);
+    setInterval(removeCustomPopups, 2000);
   },
 });
