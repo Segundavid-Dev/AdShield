@@ -36,6 +36,7 @@ body {
   place-items: center;
   min-width: 420px;
   height: 560px;
+  overflow: hidden;
 }
 
 h1 {

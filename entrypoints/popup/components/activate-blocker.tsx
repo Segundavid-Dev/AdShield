@@ -25,8 +25,7 @@ export default function ActivateBlocker() {
           <ShieldOff size={120} color="#ef4444" />
         )}
       </div>
-
-      {/* Status Text */}
+      z{/* Status Text */}
       <div style={{ textAlign: "center", marginBottom: "1rem" }}>
         <h2 style={{ margin: "0 0 8px 0", fontSize: "18px" }}>
           {adBlockerEnabled ? "Protection Active" : "Protection Disabled"}
@@ -37,7 +36,6 @@ export default function ActivateBlocker() {
             : "Enable protection to block ads and trackers"}
         </p>
       </div>
-
       {/* Main Toggle */}
       <div
         style={{

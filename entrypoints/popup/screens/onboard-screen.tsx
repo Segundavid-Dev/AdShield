@@ -5,13 +5,19 @@ export default function OnboardScreen() {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        // height: "0px",
+        minHeight: "100%",
+        overflow: "hidden",
       }}
     >
-      <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
         <ShieldCheck size={64} />
         <h1>Ad-Shield</h1>
       </div>
