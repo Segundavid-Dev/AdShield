@@ -1,8 +1,18 @@
 export default defineContentScript({
   matches: ["<all_urls>"],
   runAt: "document_idle",
-  main() {
-    console.log("Ad blocker content script started.");
+  async main() {
+    // Read toggle state from extension storage
+    const { blockerEnabled } = await browser.storage.local.get(
+      "blockerEnabled"
+    );
+
+    // early return
+    if (!blockerEnabled) {
+      console.log("Ad-shield is off");
+      return;
+    }
+    console.log("Ad-shield is on");
 
     let lastUserClick = 0;
     let clickedElement: HTMLElement | null = null;
@@ -89,6 +99,17 @@ export default defineContentScript({
       },
       true
     );
+
+    browser.storage.onChanged.addListener((changes, area) => {
+      if (area === "local" && changes.blockerEnabled) {
+        const newValue = changes.blockerEnabled.newValue;
+        if (newValue) {
+          console.log("Ad blocker just turned ON");
+        } else {
+          console.log("Ad blocker just turned OFF");
+        }
+      }
+    });
 
     const userJustClicked = () => {
       return Date.now() - lastUserClick < 1500;
