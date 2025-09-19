@@ -257,8 +257,27 @@ export default defineContentScript({
       originReplace.call(window.location, url);
     };
 
+    // remove suspicious iframes
+    const removeSuspiciousIframesAndScripts = () => {
+      const iframes = document.querySelectorAll("iframe");
+      iframes.forEach((iframe) => {
+        const src = iframe.src.toLowerCase();
+        if (isMaliciousUrl(src)) {
+          iframe.remove();
+        }
+      });
+
+      const scripts = document.querySelectorAll("script[src]");
+      scripts.forEach((script) => {
+        const src = (script as HTMLScriptElement).src.toLowerCase();
+        if (isMaliciousUrl(src)) {
+          script.remove();
+        }
+      });
+    };
+
     // remove popups banners
-    function removeCustomPopups() {
+    const removeCustomPopups = () => {
       const popups = document.querySelectorAll("div, iframe");
 
       popups.forEach((el) => {
@@ -272,7 +291,7 @@ export default defineContentScript({
           el.remove();
         }
       });
-    }
+    };
 
     // Remove click hijacking
     document.addEventListener("click", (e) => {
@@ -289,6 +308,7 @@ export default defineContentScript({
 
     setInterval(removeCustomPopups, 2000);
     setInterval(adBlock, 10000);
+    setInterval(removeSuspiciousIframesAndScripts, 8000);
 
     // cleanup function for observer
     window.addEventListener("beforeunload", () => {
