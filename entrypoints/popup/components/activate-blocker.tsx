@@ -1,15 +1,16 @@
 import { useState } from "react";
+import { useSwitch } from "@/hooks/useSwitch";
 import ToggleSwitch from "./toggle-switch";
 import { ShieldOff, ShieldCheck } from "lucide-react";
 
 export default function ActivateBlocker() {
-  const [adBlockerEnabled, setAdBlockerEnabled] = useState<boolean>(false);
+  const { enabled, onChange } = useSwitch();
 
   return (
     <div style={{ width: "100%", maxWidth: "350px", margin: "0 auto" }}>
       {/* Status icon */}
       <div style={{ textAlign: "center" }}>
-        {adBlockerEnabled ? (
+        {enabled ? (
           <ShieldCheck size={120} color="#10b981" />
         ) : (
           <ShieldOff size={120} color="#ef4444" />
@@ -18,10 +19,10 @@ export default function ActivateBlocker() {
       {/* Status Text */}
       <div style={{ textAlign: "center", marginBottom: "1rem" }}>
         <h2 style={{ margin: "0 0 8px 0", fontSize: "18px" }}>
-          {adBlockerEnabled ? "Protection Active" : "Protection Disabled"}
+          {enabled ? "Protection Active" : "Protection Disabled"}
         </h2>
         <p style={{ margin: "0", fontSize: "12px", color: "#6b7280" }}>
-          {adBlockerEnabled
+          {enabled
             ? "Blocked ads and trackers"
             : "Enable protection to block ads and trackers"}
         </p>
@@ -45,10 +46,7 @@ export default function ActivateBlocker() {
           </p>
         </div>
         <div style={{ flexShrink: 0 }}>
-          <ToggleSwitch
-            enabled={adBlockerEnabled}
-            onChange={setAdBlockerEnabled}
-          />
+          <ToggleSwitch enabled={enabled} onChange={onChange} />
         </div>
       </div>
     </div>
