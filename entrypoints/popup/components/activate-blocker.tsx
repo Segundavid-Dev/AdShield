@@ -6,7 +6,7 @@ export default function ActivateBlocker() {
   const [adBlockerEnabled, setAdBlockerEnabled] = useState<boolean>(true);
 
   return (
-    <div>
+    <div style={{ width: "100%", maxWidth: "350px", margin: "0 auto" }}>
       {/* Status icon */}
       <div style={{ textAlign: "center" }}>
         {adBlockerEnabled ? (
@@ -32,9 +32,10 @@ export default function ActivateBlocker() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          width: "100%",
           backgroundColor: "#1a1a1a",
           borderRadius: "8px",
-          padding: "8px",
+          padding: "8px 16px",
           marginBottom: "1rem",
         }}
       >
@@ -43,10 +44,12 @@ export default function ActivateBlocker() {
             Block ads and trackers
           </p>
         </div>
-        <ToggleSwitch
-          enabled={adBlockerEnabled}
-          onChange={setAdBlockerEnabled}
-        />
+        <div style={{ flexShrink: 0 }}>
+          <ToggleSwitch
+            enabled={adBlockerEnabled}
+            onChange={setAdBlockerEnabled}
+          />
+        </div>
       </div>
     </div>
   );
