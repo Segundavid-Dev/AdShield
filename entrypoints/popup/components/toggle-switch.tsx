@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import type { toggleSwitchProps } from "@/types";
 
 export default function ToggleSwitch({ enabled, onChange }: toggleSwitchProps) {
@@ -9,7 +8,7 @@ export default function ToggleSwitch({ enabled, onChange }: toggleSwitchProps) {
         position: "relative",
         display: "inline-flex",
         alignItems: "center",
-        width: "72px",
+        width: "75px",
         height: "40px",
         borderRadius: "50px",
         border: "none",
@@ -26,7 +25,7 @@ export default function ToggleSwitch({ enabled, onChange }: toggleSwitchProps) {
           borderRadius: "50%",
           backgroundColor: "white",
           boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-          transform: enabled ? "translateX(32px)" : "translateX(2px)",
+          transform: enabled ? "translateX(20px)" : "translateX(1px)",
           transition: "transform 0.3s ease-in-out",
           position: "relative",
         }}
@@ -38,15 +37,12 @@ export default function ToggleSwitch({ enabled, onChange }: toggleSwitchProps) {
               alignItems: "center",
               justifyContent: "center",
               height: "100%",
+              width: "100%",
               color: "#10b981",
               fontWeight: "bold",
               fontSize: "12px",
             }}
-          >
-            <span>
-              <Check />
-            </span>
-          </div>
+          ></div>
         )}
       </span>
     </button>

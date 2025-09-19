@@ -6,17 +6,7 @@ export default function ActivateBlocker() {
   const [adBlockerEnabled, setAdBlockerEnabled] = useState<boolean>(true);
 
   return (
-    <div
-      style={{
-        height: "250px",
-        marginBottom: "2rem",
-        padding: "10px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
+    <div>
       {/* Status icon */}
       <div style={{ textAlign: "center" }}>
         {adBlockerEnabled ? (
@@ -25,7 +15,7 @@ export default function ActivateBlocker() {
           <ShieldOff size={120} color="#ef4444" />
         )}
       </div>
-      z{/* Status Text */}
+      {/* Status Text */}
       <div style={{ textAlign: "center", marginBottom: "1rem" }}>
         <h2 style={{ margin: "0 0 8px 0", fontSize: "18px" }}>
           {adBlockerEnabled ? "Protection Active" : "Protection Disabled"}
@@ -42,18 +32,14 @@ export default function ActivateBlocker() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          width: "100%",
-          maxWidth: "300px",
           backgroundColor: "#1a1a1a",
           borderRadius: "8px",
-          padding: "16px",
+          padding: "8px",
+          marginBottom: "1rem",
         }}
       >
         <div>
-          <span style={{ color: "white", fontWeight: "500" }}>Ad Blocker</span>
-          <p
-            style={{ color: "#9ca3af", fontSize: "12px", margin: "4px 0 0 0" }}
-          >
+          <p style={{ color: "#9ca3af", fontSize: "12px" }}>
             Block ads and trackers
           </p>
         </div>

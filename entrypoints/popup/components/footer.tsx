@@ -31,7 +31,7 @@ export default function Footer() {
                 <Info size={16} />
               </TooltipTrigger>
               <TooltipContent side="bottom">
-                <p>Blocks ads • Protect Privacy</p>
+                <span>Blocks ads • Protect Privacy</span>
               </TooltipContent>
             </Tooltip>
           </span>

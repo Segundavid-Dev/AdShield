@@ -1,7 +1,7 @@
 export default function Header() {
   return (
     <div>
-      <p style={{ fontSize: "20px", fontWeight: "bold" }}>Ad-Shield</p>
+      <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>Ad-Shield</h1>
     </div>
   );
 }
