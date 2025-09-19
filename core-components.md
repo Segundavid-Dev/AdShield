@@ -22,3 +22,5 @@ Detecting new ads immediately when they're added
 Catching dynamically injected content
 Responding to DOM changes in real-time
 Being more efficient than polling with setInterval
+
+### Use DeclarativeNetReques API over webRequest
