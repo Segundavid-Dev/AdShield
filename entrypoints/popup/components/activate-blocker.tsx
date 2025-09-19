@@ -3,7 +3,7 @@ import ToggleSwitch from "./toggle-switch";
 import { ShieldOff, ShieldCheck } from "lucide-react";
 
 export default function ActivateBlocker() {
-  const [adBlockerEnabled, setAdBlockerEnabled] = useState<boolean>(true);
+  const [adBlockerEnabled, setAdBlockerEnabled] = useState<boolean>(false);
 
   return (
     <div style={{ width: "100%", maxWidth: "350px", margin: "0 auto" }}>
