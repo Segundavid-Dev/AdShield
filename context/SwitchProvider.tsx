@@ -12,17 +12,21 @@ export function SwitchProvider({ children }: { children: React.ReactNode }) {
 
   // load from storage on mount
   useEffect(() => {
-    browser.storage.local.get("blockerEnabled").then((res) => {
-      if (typeof res.blockerEnabled === "boolean") {
-        setEnabled(res.blockerEnabled);
-      }
-    });
+    if (typeof browser !== "undefined" && browser.storage) {
+      browser.storage.local.get("blockerEnabled").then((res) => {
+        if (typeof res.blockerEnabled === "boolean") {
+          setEnabled(res.blockerEnabled);
+        }
+      });
+    }
   }, []);
 
   // save to storage whenever it changes
   useEffect(() => {
-    browser.storage.local.set({ blockerEnabled: enabled });
-  }, []);
+    if (typeof browser !== "undefined" && browser.storage) {
+      browser.storage.local.set({ blockerEnabled: enabled });
+    }
+  }, [enabled]);
 
   const onChange = (value: boolean) => setEnabled(value);
 
