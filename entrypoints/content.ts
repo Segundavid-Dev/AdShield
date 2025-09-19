@@ -194,7 +194,24 @@ export default defineContentScript({
       }
     };
 
-    // return true;
+    const observer = new MutationObserver((mutations) => {
+      let hasNewNodes = false;
+
+      mutations.forEach((mutation) => {
+        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+          hasNewNodes = true;
+        }
+
+        if (hasNewNodes) {
+          adBlock();
+        }
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
     // Intercept navigation attempts
     window.addEventListener("beforeunload", (e) => {
@@ -271,5 +288,11 @@ export default defineContentScript({
     });
 
     setInterval(removeCustomPopups, 2000);
+    setInterval(adBlock, 10000);
+
+    // cleanup function for observer
+    window.addEventListener("beforeunload", () => {
+      observer.disconnect();
+    });
   },
 });
