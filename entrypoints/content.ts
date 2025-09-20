@@ -289,32 +289,32 @@ export default defineContentScript({
     const originAssign = window.location.assign;
     const originReplace = window.location.replace;
 
-    window.location.assign = function (url: string) {
-      if (isMaliciousUrl(url)) {
-        console.log("Blocked redirect to", url);
-      }
+    // window.location.assign = function (url: string) {
+    //   if (isMaliciousUrl(url)) {
+    //     console.log("Blocked redirect to", url);
+    //   }
 
-      if (!userJustClicked() || !isLegitimateClick(clickedElement)) {
-        console.log("Blocked JS redirect to:", url);
-        suspiciousRedirectCount++;
-        return;
-      }
-      originAssign.call(window.location, url);
-    };
+    //   if (!userJustClicked() || !isLegitimateClick(clickedElement)) {
+    //     console.log("Blocked JS redirect to:", url);
+    //     suspiciousRedirectCount++;
+    //     return;
+    //   }
+    //   originAssign.call(window.location, url);
+    // };
 
-    window.location.replace = function (url: string) {
-      if (isMaliciousUrl(url)) {
-        console.log("Blocked malicious JS replace to:", url);
-        return;
-      }
+    // window.location.replace = function (url: string) {
+    //   if (isMaliciousUrl(url)) {
+    //     console.log("Blocked malicious JS replace to:", url);
+    //     return;
+    //   }
 
-      if (!userJustClicked() || !isLegitimateClick(clickedElement)) {
-        console.log("Blocked suspicious JS replace to:", url);
-        return;
-      }
+    //   if (!userJustClicked() || !isLegitimateClick(clickedElement)) {
+    //     console.log("Blocked suspicious JS replace to:", url);
+    //     return;
+    //   }
 
-      originReplace.call(window.location, url);
-    };
+    //   originReplace.call(window.location, url);
+    // };
 
     // Remove click hijacking
     document.addEventListener("click", (e) => {
