@@ -1,11 +1,9 @@
 import { browser } from "wxt/browser";
 
-// <reference types="webextension-polyfill" />
-
 export default defineBackground(() => {
   console.log("Background running!");
 
-  let blockerEnabled = true;
+  let blockerEnabled: boolean;
 
   // Ad domains for blocking
   const adDomains = [
@@ -21,7 +19,7 @@ export default defineBackground(() => {
 
   // Load initial state
   browser.storage.local.get("blockerEnabled").then((res) => {
-    blockerEnabled = res.blockerEnabled ?? true;
+    blockerEnabled = res.blockerEnabled ?? false;
     setupBlockingRules();
   });
 
