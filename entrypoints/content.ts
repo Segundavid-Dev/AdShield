@@ -91,26 +91,7 @@ export default defineContentScript({
       'iframe[src*="popads"]',
     ];
 
-    document.addEventListener(
-      "click",
-      (e) => {
-        lastUserClick = Date.now();
-        clickedElement = e.target as HTMLElement;
-      },
-      true
-    );
-
-    browser.storage.onChanged.addListener((changes, area) => {
-      if (area === "local" && changes.blockerEnabled) {
-        const newValue = changes.blockerEnabled.newValue;
-        if (newValue) {
-          console.log("Ad blocker just turned ON");
-        } else {
-          console.log("Ad blocker just turned OFF");
-        }
-      }
-    });
-
+    // Define all functions first
     const userJustClicked = () => {
       return Date.now() - lastUserClick < 1500;
     };
@@ -159,33 +140,6 @@ export default defineContentScript({
       );
     };
 
-    const adBlock = () => {
-      let blockedCount = 0;
-
-      AD_SELECTORS.forEach((selector) => {
-        try {
-          const ads = document.querySelectorAll(selector);
-          console.log(`Found ${ads.length} ads for selector: ${selector}`);
-
-          ads.forEach((ad) => {
-            const element = ad as HTMLElement;
-
-            if (isLegitimatePopup(element)) {
-              console.log(`Skipping legitimate element: ${selector}`);
-              return;
-            }
-
-            element.remove();
-            blockedCount++;
-          });
-        } catch (error) {
-          console.log(`Error with ${selector}`);
-        }
-      });
-
-      removeCustomPopups();
-    };
-
     const isMaliciousUrl = (url: string): boolean => {
       try {
         const UrlObj = new URL(url);
@@ -214,6 +168,90 @@ export default defineContentScript({
         return false;
       }
     };
+
+    // remove popups banners
+    const removeCustomPopups = () => {
+      const popups = document.querySelectorAll("div, iframe");
+
+      popups.forEach((el) => {
+        const style = window.getComputedStyle(el);
+
+        if (
+          (style.position === "fixed" || style.position === "absolute") &&
+          parseInt(style.zIndex) > 1000 &&
+          el.clientHeight > window.innerHeight * 0.5
+        ) {
+          el.remove();
+        }
+      });
+    };
+
+    const adBlock = () => {
+      let blockedCount = 0;
+
+      AD_SELECTORS.forEach((selector) => {
+        try {
+          const ads = document.querySelectorAll(selector);
+          console.log(`Found ${ads.length} ads for selector: ${selector}`);
+
+          ads.forEach((ad) => {
+            const element = ad as HTMLElement;
+
+            if (isLegitimatePopup(element)) {
+              console.log(`Skipping legitimate element: ${selector}`);
+              return;
+            }
+
+            element.remove();
+            blockedCount++;
+          });
+        } catch (error) {
+          console.log(`Error with ${selector}`);
+        }
+      });
+
+      removeCustomPopups();
+    };
+
+    // remove suspicious iframes
+    const removeSuspiciousIframesAndScripts = () => {
+      const iframes = document.querySelectorAll("iframe");
+      iframes.forEach((iframe) => {
+        const src = iframe.src.toLowerCase();
+        if (isMaliciousUrl(src)) {
+          iframe.remove();
+        }
+      });
+
+      const scripts = document.querySelectorAll("script[src]");
+      scripts.forEach((script) => {
+        const src = (script as HTMLScriptElement).src.toLowerCase();
+        if (isMaliciousUrl(src)) {
+          script.remove();
+        }
+      });
+    };
+
+    // Now set up event listeners and main logic
+    document.addEventListener(
+      "click",
+      (e) => {
+        lastUserClick = Date.now();
+        clickedElement = e.target as HTMLElement;
+      },
+      true
+    );
+
+    browser.storage.onChanged.addListener((changes, area) => {
+      if (area === "local" && changes.blockerEnabled) {
+        const newValue = changes.blockerEnabled.newValue;
+        if (newValue) {
+          console.log("Ad blocker just turned ON");
+        } else {
+          console.log("Ad blocker just turned OFF");
+        }
+      }
+    });
 
     const observer = new MutationObserver((mutations) => {
       let hasNewNodes = false;
@@ -276,42 +314,6 @@ export default defineContentScript({
       }
 
       originReplace.call(window.location, url);
-    };
-
-    // remove suspicious iframes
-    const removeSuspiciousIframesAndScripts = () => {
-      const iframes = document.querySelectorAll("iframe");
-      iframes.forEach((iframe) => {
-        const src = iframe.src.toLowerCase();
-        if (isMaliciousUrl(src)) {
-          iframe.remove();
-        }
-      });
-
-      const scripts = document.querySelectorAll("script[src]");
-      scripts.forEach((script) => {
-        const src = (script as HTMLScriptElement).src.toLowerCase();
-        if (isMaliciousUrl(src)) {
-          script.remove();
-        }
-      });
-    };
-
-    // remove popups banners
-    const removeCustomPopups = () => {
-      const popups = document.querySelectorAll("div, iframe");
-
-      popups.forEach((el) => {
-        const style = window.getComputedStyle(el);
-
-        if (
-          (style.position === "fixed" || style.position === "absolute") &&
-          parseInt(style.zIndex) > 1000 &&
-          el.clientHeight > window.innerHeight * 0.5
-        ) {
-          el.remove();
-        }
-      });
     };
 
     // Remove click hijacking
